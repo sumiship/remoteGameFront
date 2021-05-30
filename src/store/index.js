@@ -66,12 +66,38 @@ export default new Vuex.Store({
         alert("this number is already in use");
       }
     },
+    async joinRoom({ commit }, { roomId, name }) {
+      const roomData = await axios.get(
+        "http://127.0.0.1:8000/api/game/test/" + roomId
+      );
+      console.log(roomData.data.data[0].player2);
+      if (roomData.data.data[0].player2 == null) {
+        console.log(roomId, name);
+        const sendData = {
+          roomId: roomId,
+          player: name,
+        };
+        await axios.put("http://127.0.0.1:8000/api/game/1", sendData);
+        commit("roomId", roomId);
+        router.push("/game");
+      } else {
+        alert("can't join");
+      }
+    },
     async showRoom({ commit }, { roomId }) {
       console.log(roomId);
       const roomData = await axios.get(
         "http://127.0.0.1:8000/api/game/test/" + roomId
       );
       commit("getRoomData", roomData.data.data);
+    },
+    async sendGameMessage({ commit }, { roomId, message, name }) {
+      commit("roomId", roomId);
+      const sendData = {
+        roomId: roomId,
+        game: '('+name+') '+message,
+      };
+      await axios.post("http://127.0.0.1:8000/api/game/game", sendData);
     },
   },
   modules: {},
