@@ -18,8 +18,8 @@ export default {
   },
   methods: {
     setUser(name) {
-      console.log(name);
       this.$store.dispatch("setUser", { name: name });
+      this.name = "";
     },
   },
   mounted() {
