@@ -11,6 +11,7 @@ export default new Vuex.Store({
     rooms: [],
     roomId: "",
     roomData: "",
+    oneTwo: "",
   },
   mutations: {
     userName(state, payload) {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     getRoomData(state, payload) {
       state.roomData = payload;
+    },
+    setOneTwo(state, payload) {
+      state.oneTwo = payload;
     },
   },
   actions: {
@@ -62,6 +66,7 @@ export default new Vuex.Store({
         commit("createRoom", roomId);
         commit("roomId", roomId);
         router.push("/game");
+        commit("setOneTwo", "1");
       } else {
         alert("this number is already in use");
       }
@@ -79,6 +84,7 @@ export default new Vuex.Store({
         };
         await axios.put("http://127.0.0.1:8000/api/game/1", sendData);
         commit("roomId", roomId);
+        commit("setOneTwo", "-1");
         router.push("/game");
       } else {
         alert("can't join");
@@ -91,11 +97,11 @@ export default new Vuex.Store({
       );
       commit("getRoomData", roomData.data.data);
     },
-    async sendGameMessage({ commit }, { roomId, message, name }) {
+    async sendGameMessage({ commit }, { roomId, message }) {
       commit("roomId", roomId);
       const sendData = {
         roomId: roomId,
-        game: '('+name+') '+message,
+        game: message,
       };
       await axios.post("http://127.0.0.1:8000/api/game/game", sendData);
     },
