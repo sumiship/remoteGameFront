@@ -48,7 +48,8 @@ export default new Vuex.Store({
     },
     async setRooms({ commit }) {
       this.state.rooms = [];
-      const roomsData = await axios.get("http://127.0.0.1:8000/api/game");
+      const roomsData = await axios.get("https://protected-refuge-40512.herokuapp.com/api/game");
+      // const roomsData = await axios.get("http://127.0.0.1:8000/api/game");
       const rooms = roomsData.data.data;
       console.log("setRooms" + rooms);
       for (let i = 0; rooms.length > i; i++) {
@@ -62,7 +63,8 @@ export default new Vuex.Store({
           roomId: roomId,
           player1: name,
         };
-        await axios.post("http://127.0.0.1:8000/api/game", sendData);
+        await axios.post("https://protected-refuge-40512.herokuapp.com/api/game", sendData);
+        // await axios.post("http://127.0.0.1:8000/api/game", sendData);
         commit("createRoom", roomId);
         commit("roomId", roomId);
         router.push("/game");
@@ -73,8 +75,11 @@ export default new Vuex.Store({
     },
     async joinRoom({ commit }, { roomId, name }) {
       const roomData = await axios.get(
-        "http://127.0.0.1:8000/api/game/test/" + roomId
+        "https://protected-refuge-40512.herokuapp.com/api/game/test/" + roomId
       );
+      // const roomData = await axios.get(
+      //   "http://127.0.0.1:8000/api/game/test/" + roomId
+      // );
       console.log(roomData.data.data[0].player2);
       if (roomData.data.data[0].player2 == null) {
         console.log(roomId, name);
@@ -82,7 +87,8 @@ export default new Vuex.Store({
           roomId: roomId,
           player: name,
         };
-        await axios.put("http://127.0.0.1:8000/api/game/1", sendData);
+        await axios.put("https://protected-refuge-40512.herokuapp.com/api/game/1", sendData);
+        // await axios.put("http://127.0.0.1:8000/api/game/1", sendData);
         commit("roomId", roomId);
         commit("setOneTwo", "-1");
         router.push("/game");
@@ -93,8 +99,11 @@ export default new Vuex.Store({
     async showRoom({ commit }, { roomId }) {
       console.log(roomId);
       const roomData = await axios.get(
-        "http://127.0.0.1:8000/api/game/test/" + roomId
+        "https://protected-refuge-40512.herokuapp.com/api/game/test/" + roomId
       );
+      // const roomData = await axios.get(
+      //   "http://127.0.0.1:8000/api/game/test/" + roomId
+      // );
       commit("getRoomData", roomData.data.data);
     },
     async sendGameMessage({ commit }, { roomId, message }) {
@@ -103,7 +112,8 @@ export default new Vuex.Store({
         roomId: roomId,
         game: message,
       };
-      await axios.post("http://127.0.0.1:8000/api/game/game", sendData);
+      await axios.post("https://protected-refuge-40512.herokuapp.com/api/game/game", sendData);
+      // await axios.post("http://127.0.0.1:8000/api/game/game", sendData);
     },
   },
   modules: {},
